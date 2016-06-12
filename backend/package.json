@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "description": "DevOps class 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "DevOps"
+  ],
+  "author": "ThanhPV",
+  "license": "MIT",
+  "dependencies": {
+    "config": "^1.21.0",
+    "express": "^4.13.4",
+    "winston": "^2.2.0"
+  }
+}
