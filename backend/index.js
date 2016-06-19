@@ -1,22 +1,28 @@
 'use strict';
 
 var express = require('express');
-// var fs = require('fs');
-var app = express();
-var logger = require('./helpers/logger');
+var fs = require('fs');
+var path = require('path');
 var config = require('config');
+var app = express();
+var yaml = require('js-yaml');
+var bodyParser = require('body-parser');
+var logger = require('./helpers/logger');
 
-app.get('/wines', function(req, res) {
-    res.send([{name:'wine1'}, {name:'wine2'}]);
-});
-app.get('/wines/:id', function(req, res) {
-    res.send({id:req.params.id, name: "The Name", description: "description"});
+// body parse
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// add-on swagger-editor
+app.use('/swagger', express.static('./node_modules/swagger-editor'));
+app.use('/', express.static('./docs'));
+app.get('/docs', function(req, res){
+    var docs = yaml.safeLoad(fs.readFileSync('./docs/swagger.yml', 'utf8'));
+    res.send(JSON.stringify(docs));
 });
 
-app.get('/hello', function (req, res) {
-    logger.info('Request from %s to /hello', req.connection.remoteAddress);
-    res.send(JSON.stringify({'hello': 'world!!!'}));
-});
+// import routers
+app.use(require('./apis'));
 
 var server = app.listen(config.get('server.port'), config.get('server.address'), function () {
     var host = server.address().address;
