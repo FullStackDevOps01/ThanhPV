@@ -4,3 +4,7 @@
 out
 gen
 node_modules
+*.swp
+*.swo
+dl.mongodb.org
+coverage

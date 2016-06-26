@@ -4,7 +4,7 @@
   "description": "DevOps class 1",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test mocha"
   },
   "keywords": [
     "DevOps"
@@ -13,12 +13,17 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.1",
+    "chai": "^3.5.0",
     "config": "^1.21.0",
     "crypto": "0.0.3",
     "express": "^4.13.4",
     "js-yaml": "^3.6.1",
+    "lodash": "^4.13.1",
+    "mocha": "^2.5.3",
     "moment": "^2.13.0",
     "mongoose": "^4.5.1",
+    "mongoose-timestamp": "^0.5.0",
+    "supertest": "^1.2.0",
     "swagger-editor": "^2.9.9",
     "winston": "^2.2.0"
   }

@@ -21,11 +21,17 @@ app.get('/docs', function(req, res){
     res.send(JSON.stringify(docs));
 });
 
+// import middlewares
+app.use(require('./middlewares/auth'));
+
 // import routers
 app.use(require('./apis'));
 
-var server = app.listen(config.get('server.port'), config.get('server.address'), function () {
+// start server
+var server = app.listen(config.get('server.port'), config.get('server.host'), function () {
     var host = server.address().address;
     var port = server.address().port;
     logger.info('Server start at http://%s:%s', host, port);
 });
+
+module.exports = app;
