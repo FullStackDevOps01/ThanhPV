@@ -1,6 +1,7 @@
 'use strict';
 var express = require('express'),
     db = require('../models'),
+    q = require('../queues'),
     logger = require('../helpers/logger'),
     moment = require('moment'),
     config = require('config'),
@@ -20,6 +21,15 @@ router.post('/create', function(req, res){
             delete new_user.hashed_password;
             delete user.salt;
         }
+        // send email welcome to user
+        q.create('email', {
+            title: '[Site Admin] Thank You',
+            to: new_user.email,
+            emailContent: {
+                username: new_user.username
+            },
+            template: 'welcome'
+        }).priority('high').save();
         res.send(JSON.stringify(new_user));
     });
 });
@@ -62,6 +72,23 @@ router.get('/list/:page/:limit', function(req, res){
 router.post('/login', function(req, res){
     var username = req.body.username;
     var password = req.body.password;
+
+    var generateToken = function () {
+        crypto.randomBytes(64, function(ex, buf) {
+            var token = buf.toString('base64');
+            var today = moment.utc();
+            var tomorrow = moment(today).add(config.get('token_expire'), 'seconds').format(config.get('time_format'));
+            token = new db.Token({
+                username: username,
+                token: token,
+                expired_at: tomorrow.toString()
+            });
+            token.save(function(error, to){
+                return res.send(JSON.stringify(to));
+            });
+        });
+    };
+
     db.User.findOne({
         username: username
     }).then(function(user){
@@ -71,21 +98,13 @@ router.post('/login', function(req, res){
         db.Token.findOne({
             username: username
         }).then(function(t){
-            t.remove(function() {
-                crypto.randomBytes(64, function(ex, buf) {
-                    var token = buf.toString('base64');
-                    var today = moment.utc();
-                    var tomorrow = moment(today).add(config.get('token_expire'), 'seconds').format(config.get('time_format'));
-                    token = new db.Token({
-                        username: username,
-                        token: token,
-                        expired_at: tomorrow.toString()
-                    });
-                    token.save(function(error, to){
-                        return res.send(JSON.stringify(to));
-                    });
+            if (t) {
+                t.remove(function() {
+                    return generateToken();
                 });
-            });
+            } else {
+                return generateToken();
+            }
         });
     }).catch(function(e){
         res.status(401).send(JSON.stringify(e));
