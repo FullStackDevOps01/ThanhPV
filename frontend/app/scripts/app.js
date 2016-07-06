@@ -9,11 +9,10 @@
  * Main module of the application.
  */
 angular
-.module('frontendApp', [
-    'ngTouch',
-    'ui.router',
-    'oc.lazyLoad'
-])
+.module('frontendApp')
+.config(['$resourceProvider', function($resourceProvider) {
+  $resourceProvider.defaults.stripTrailingSlashes = false;
+}])
 .config([
     '$stateProvider',
     '$urlRouterProvider',
@@ -26,7 +25,7 @@ angular
             events: true,
         });
 
-        $urlRouterProvider.otherwise('/home/dashboard');
+        $urlRouterProvider.otherwise('/login');
 
         $stateProvider
         .state('login',{
@@ -40,7 +39,8 @@ angular
                         {
                             name:'frontendApp',
                             files:[
-                                'scripts/controllers/login.js'
+                                'scripts/controllers/login.js',
+                                'scripts/services/users.js'
                             ]
                         });
                 }

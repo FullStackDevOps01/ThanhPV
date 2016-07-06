@@ -1,4 +1,4 @@
-// Generated on 2016-07-03 using generator-angular 0.15.1
+// Generated on 2016-04-29 using generator-angular 0.15.1
 'use strict';
 
 // # Globbing
@@ -25,11 +25,25 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  var env = process.env.NODE_ENV || 'local';
+
+  grunt.loadNpmTasks('grunt-preprocess');
   // Define the configuration for all the tasks
   grunt.initConfig({
 
     // Project settings
     yeoman: appConfig,
+    preprocess: {
+        options: {
+            context: {
+                APP_CONFIG: grunt.file.read('config/' + env + '.json'),
+            }
+        },
+        config: {
+            src: '<%= yeoman.app %>/scripts/config.tpl.js',
+            dest: '<%= yeoman.app %>/scripts/config.js'
+        }
+    },
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
@@ -127,6 +141,7 @@ module.exports = function (grunt) {
       all: {
         src: [
           'Gruntfile.js',
+          '!<%= yeoman.app %>/scripts/config.tpl.js',
           '<%= yeoman.app %>/scripts/{,*/}*.js'
         ]
       },
@@ -316,18 +331,19 @@ module.exports = function (grunt) {
     //     }
     //   }
     // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
+    uglify: {
+        build: {
+            files: [{
+                expand: true,
+                src: '**/*.js',
+                dest: '<%= yeoman.dist %>/scripts',
+                cwd: '<%= yeoman.app %>/scripts'
+            }]
+        },
+        options: {
+            mangle: false
+        },
+    },
 
     imagemin: {
       dist: {
@@ -423,7 +439,10 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '.',
-          src: 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
+          src: [
+              'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
+              'bower_components/font-awesome/fonts/*'
+          ],
           dest: '<%= yeoman.dist %>'
         }]
       },
@@ -467,6 +486,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'preprocess',
       'wiredep',
       'concurrent:server',
       'postcss:server',
@@ -502,11 +522,10 @@ module.exports = function (grunt) {
     'cdnify',
     'cssmin',
     'uglify',
-    'filerev',
+    //'filerev',
     'usemin',
     'htmlmin'
   ]);
-
   grunt.registerTask('default', [
     'newer:jshint',
     'newer:jscs',

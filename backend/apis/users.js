@@ -1,5 +1,5 @@
 'use strict';
-var express = require('express'),
+var express = require('express'), 
     db = require('../models'),
     q = require('../queues'),
     logger = require('../helpers/logger'),
@@ -57,13 +57,13 @@ router.get('/list/:page/:limit', function(req, res){
     var limit = (req.params.limit)? req.params.limit: 10;
     var skip = (req.params.page)? limit * (req.params.page - 1): 0;
     db.User
-        .find()
-        .skip(skip)
-        .limit(limit)
-        .sort({'_id': 'desc'})
-        .then(function(users) {
-            res.send(JSON.stringify(users));
-        }).catch(function(e) {
+    .find()
+    .skip(skip)
+    .limit(limit)
+    .sort({'_id': 'desc'})
+    .then(function(users) {
+        res.send(JSON.stringify(users));
+    }).catch(function(e) {
         res.status(500).send(JSON.stringify(e));
     });
 });
@@ -78,7 +78,7 @@ router.post('/login', function(req, res){
             var token = buf.toString('base64');
             var today = moment.utc();
             var tomorrow = moment(today).add(config.get('token_expire'), 'seconds').format(config.get('time_format'));
-            token = new db.Token({
+            var token = new db.Token({
                 username: username,
                 token: token,
                 expired_at: tomorrow.toString()

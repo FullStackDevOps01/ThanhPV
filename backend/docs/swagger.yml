@@ -51,9 +51,6 @@ paths:
                       properties:
                           config_key:
                               type: string
-                              description: Config key
-                          config_value:
-                              type: string
                               description: Config Value
             responses:
                 200:
