@@ -1,6 +1,6 @@
 'use strict';
 
 // MainCtrl
-angular.module('siteSeedApp')
+angular.module('frontendApp')
   .controller('MainCtrl', function () {
   });

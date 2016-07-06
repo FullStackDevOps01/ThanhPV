@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 angular
-.module('siteSeedApp', [
+.module('frontendApp', [
     'ngTouch',
     'ui.router',
     'oc.lazyLoad'
@@ -38,7 +38,7 @@ angular
                 loadMyDirectives:function($ocLazyLoad){
                     return $ocLazyLoad.load(
                         {
-                            name:'siteSeedApp',
+                            name:'frontendApp',
                             files:[
                                 'scripts/controllers/login.js'
                             ]
@@ -53,7 +53,7 @@ angular
                 loadMyDirectives:function($ocLazyLoad){
                     return $ocLazyLoad.load(
                         {
-                            name:'siteSeedApp',
+                            name:'frontendApp',
                             files:[
                                 'scripts/directives/header/header.js',
                                 'scripts/directives/sidebar/sidebar.js'
@@ -70,7 +70,7 @@ angular
                 loadMyDirectives: function($ocLazyLoad){
                     return $ocLazyLoad.load(
                         {
-                            name:'siteSeedApp',
+                            name:'frontendApp',
                             files:[
                                 'scripts/controllers/main.js'
                             ]

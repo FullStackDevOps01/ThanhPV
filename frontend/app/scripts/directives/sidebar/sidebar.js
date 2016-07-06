@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('siteSeedApp')
+angular.module('frontendApp')
 .directive('sidebar',[function() {
     return {
         templateUrl:'views/sidebar/sidebar.html',

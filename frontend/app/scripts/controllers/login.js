@@ -1,7 +1,7 @@
 'use strict';
 
 // LoginCtrl
-angular.module('siteSeedApp')
+angular.module('frontendApp')
 .controller('LoginCtrl', function() {
     var vm = this;
     // logout before login

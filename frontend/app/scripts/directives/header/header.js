@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('siteSeedApp')
+angular.module('frontendApp')
 .directive('header', function(){
     return {
         templateUrl:'views/header/header.html',
