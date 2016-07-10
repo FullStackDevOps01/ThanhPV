@@ -1,19 +1,18 @@
 'use strict';
 
-describe('Controller: MainCtrl', function () {
+describe('Controller: ListUserCtrl', function () {
 
   // load the controller's module
   beforeEach(module('frontendApp'));
 
-  var MainCtrl,
+  var ListUserCtrl,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    MainCtrl = $controller('MainCtrl', {
+    ListUserCtrl = $controller('ListUserCtrl', {
       $scope: scope
-      // place here mocked dependencies
     });
   }));
 

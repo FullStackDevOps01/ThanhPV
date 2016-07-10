@@ -1,6 +1,6 @@
 'use strict';
 angular.module('frontendApp')
-  .service('LocaleService', function ($translate, APP_CONFIG, $rootScope) {
+  .service('LocaleService', function ($translate, APP_CONFIG) {
     // get locales from config
     var localesObj = APP_CONFIG.locales.locales;
 

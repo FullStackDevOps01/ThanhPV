@@ -2,5 +2,6 @@
 
 // MainCtrl
 angular.module('frontendApp')
-  .controller('MainCtrl', function () {
+  .controller('MainCtrl', function ($scope) {
+      $scope.forUnitTest = true;
   });

@@ -15,4 +15,5 @@ angular.module('frontendApp')
         $scope.users = response.rows;
       });
     };
+    $scope.forUnitTest = true;
   });
